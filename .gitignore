@@ -1,0 +1,73 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Environment
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Validated model weights
+*.h5
+*.pth
+*.pt
+!src/models/base_weights/
+
+# Data & artifacts
+data/
+outputs/
+logs/
+exports/
+runs/
+*.csv
+*.json
+*.sqlite
+*.db
+
+# Intermediate & Setup Scripts (Excluded by User)
+quickstart_*.py
+setup.sh
+train_and_evaluate.py
+create_full_dataset.py
+
+# Documentation & Notebooks (Excluded by User)
+docs/
+notebooks/
+
+# Tests (Excluded by User)
+tests/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# IDES
+.vscode/
+.idea/
+.ipynb_checkpoints/
