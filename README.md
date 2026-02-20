@@ -65,12 +65,12 @@ Built using:
 🚀 Installation & Setup
 
 1. Clone the Repository
-	git clone https://github.com/springboardmentor992-tech/pcb-defect-classification-system/tree/rajesh
+		git clone https://github.com/springboardmentor992-tech/pcb-defect-classification-system/tree/rajesh
 2. Create Virtual Environment
-     python -m venv venv
-     python3 -m uvicorn main:app --reload     
+ 		python -m venv venv
+     	python3 -m uvicorn main:app --reload     
 4. Install Dependencies
-     pip install -r requirements.txt
+     	pip install -r requirements.txt
 
 
 💻 Running the Application
