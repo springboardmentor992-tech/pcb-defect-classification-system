@@ -65,7 +65,7 @@ Built using:
 🚀 Installation & Setup
 
 1. Clone the Repository
-	   git clone https://github.com/rajesh2408-tech/pcb-defect-classification-system.git  
+	   git clone https://github.com/springboardmentor992-tech/pcb-defect-classification-system/tree/rajesh
      cd pcb-defect-detection 
 2. Create Virtual Environment
      python -m venv venv
