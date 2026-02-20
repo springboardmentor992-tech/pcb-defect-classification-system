@@ -1,0 +1,74 @@
+{
+  "image_name": "12_open_circuit_03.jpg",
+  "template_name": "12.JPG",
+  "num_defects": 6,
+  "processing_time": 0.341,
+  "defects": [
+    {
+      "id": 1,
+      "class": "Open_circuit",
+      "confidence": 1.0,
+      "bbox": [
+        2355,
+        2140,
+        2374,
+        2157
+      ]
+    },
+    {
+      "id": 2,
+      "class": "Open_circuit",
+      "confidence": 0.9997,
+      "bbox": [
+        128,
+        2044,
+        146,
+        2080
+      ]
+    },
+    {
+      "id": 3,
+      "class": "Open_circuit",
+      "confidence": 0.9826,
+      "bbox": [
+        1335,
+        1972,
+        1345,
+        1979
+      ]
+    },
+    {
+      "id": 4,
+      "class": "Open_circuit",
+      "confidence": 1.0,
+      "bbox": [
+        1331,
+        1936,
+        1361,
+        1953
+      ]
+    },
+    {
+      "id": 5,
+      "class": "Open_circuit",
+      "confidence": 1.0,
+      "bbox": [
+        1749,
+        1846,
+        1768,
+        1862
+      ]
+    },
+    {
+      "id": 6,
+      "class": "Open_circuit",
+      "confidence": 0.9999,
+      "bbox": [
+        2313,
+        1726,
+        2330,
+        1755
+      ]
+    }
+  ]
+}

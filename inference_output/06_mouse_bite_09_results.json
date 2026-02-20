@@ -1,0 +1,63 @@
+{
+  "image_name": "06_mouse_bite_09.jpg",
+  "template_name": "06.JPG",
+  "num_defects": 5,
+  "processing_time": 0.367,
+  "defects": [
+    {
+      "id": 1,
+      "class": "Mouse_bite",
+      "confidence": 0.9991,
+      "bbox": [
+        534,
+        1886,
+        550,
+        1941
+      ]
+    },
+    {
+      "id": 2,
+      "class": "Mouse_bite",
+      "confidence": 1.0,
+      "bbox": [
+        324,
+        1395,
+        344,
+        1439
+      ]
+    },
+    {
+      "id": 3,
+      "class": "Mouse_bite",
+      "confidence": 0.9975,
+      "bbox": [
+        990,
+        1273,
+        1003,
+        1342
+      ]
+    },
+    {
+      "id": 4,
+      "class": "Mouse_bite",
+      "confidence": 0.9999,
+      "bbox": [
+        434,
+        776,
+        474,
+        795
+      ]
+    },
+    {
+      "id": 5,
+      "class": "Mouse_bite",
+      "confidence": 0.9995,
+      "bbox": [
+        821,
+        720,
+        835,
+        777
+      ]
+    }
+  ]
+}

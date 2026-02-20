@@ -1,0 +1,16 @@
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.env
+.git/
+.gitignore
+PCB_DATASET/
+inference_output/
+processed_rois/
+*.DS_Store
+Dockerfile
+README.md
