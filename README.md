@@ -82,4 +82,5 @@ To run the full system, you need to start both the backend API and the frontend 
 2. Start the Frontend Dashboard (Terminal 2) This launches the web interface.
       cd ~/Desktop/pcb_defect_system/frontend
       streamlit run app_frontend.py
+
 Open your browser to http://localhost:8501.
