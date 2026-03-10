@@ -8,7 +8,7 @@ from skimage.metrics import structural_similarity as ssim
 import os
 
 # ============================================================
-# CONFIG
+# CONFIGURATION
 # ============================================================
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -23,11 +23,11 @@ CLASS_NAMES = [
     "Spurious_copper"
 ]
 
-CONF_THRESHOLD = 0.6
+CONF_THRESHOLD = 0.4   # Lowered for better recall
 DEVICE = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
 
 # ============================================================
-# LOAD MODEL (LOAD ONLY ONCE)
+# LOAD MODEL
 # ============================================================
 
 model = models.resnet18(weights=None)
@@ -53,34 +53,86 @@ transform = transforms.Compose([
 ])
 
 # ============================================================
+# ROTATION FUNCTION
+# ============================================================
+
+def rotate_image(image, angle):
+    if angle == 0:
+        return image
+    elif angle == 90:
+        return cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE)
+    elif angle == 180:
+        return cv2.rotate(image, cv2.ROTATE_180)
+    elif angle == 270:
+        return cv2.rotate(image, cv2.ROTATE_90_COUNTERCLOCKWISE)
+
+# ============================================================
 # MAIN FUNCTION
 # ============================================================
 
 def run_inspection(template_path, test_path):
 
     template = cv2.imread(template_path)
-    test = cv2.imread(test_path)
+    test_original = cv2.imread(test_path)
 
-    if template is None or test is None:
-        return []
+    if template is None or test_original is None:
+        return [], None
 
-    test = cv2.resize(test, (template.shape[1], template.shape[0]))
+    template_gray = cv2.cvtColor(template, cv2.COLOR_BGR2GRAY)
+    template_gray = cv2.GaussianBlur(template_gray, (5,5), 0)
 
-    gray_template = cv2.cvtColor(template, cv2.COLOR_BGR2GRAY)
+    # ============================================================
+    # STEP 1: AUTOMATIC ROTATION ALIGNMENT
+    # ============================================================
+
+    best_score = -1
+    best_test = None
+    best_angle = 0
+
+    for angle in [0, 90, 180, 270]:
+
+        rotated = rotate_image(test_original, angle)
+        rotated = cv2.resize(rotated, (template.shape[1], template.shape[0]))
+
+        gray_rotated = cv2.cvtColor(rotated, cv2.COLOR_BGR2GRAY)
+        gray_rotated = cv2.GaussianBlur(gray_rotated, (5,5), 0)
+
+        score, _ = ssim(template_gray, gray_rotated, full=True)
+
+        if score > best_score:
+            best_score = score
+            best_test = rotated
+            best_angle = angle
+
+    print("Selected Rotation:", best_angle)
+
+    test = best_test.copy()
+
+    # ============================================================
+    # STEP 2: SSIM DIFFERENCE
+    # ============================================================
+
     gray_test = cv2.cvtColor(test, cv2.COLOR_BGR2GRAY)
-
-    gray_template = cv2.GaussianBlur(gray_template, (5,5), 0)
     gray_test = cv2.GaussianBlur(gray_test, (5,5), 0)
 
-    _, diff = ssim(gray_template, gray_test, full=True)
+    _, diff = ssim(template_gray, gray_test, full=True)
 
     diff = (1 - diff) * 255
     diff = diff.astype("uint8")
 
+    # Threshold
     _, thresh = cv2.threshold(
         diff, 0, 255,
         cv2.THRESH_BINARY + cv2.THRESH_OTSU
     )
+
+    # Dilation to enhance small defects
+    kernel = np.ones((3,3), np.uint8)
+    thresh = cv2.dilate(thresh, kernel, iterations=1)
+
+    # ============================================================
+    # STEP 3: FIND CONTOURS
+    # ============================================================
 
     contours, _ = cv2.findContours(
         thresh,
@@ -91,10 +143,16 @@ def run_inspection(template_path, test_path):
     image_area = template.shape[0] * template.shape[1]
     detections = []
 
+    # ============================================================
+    # STEP 4: CLASSIFICATION
+    # ============================================================
+
     for contour in contours:
+
         area = cv2.contourArea(contour)
 
-        if area < 150 or area > image_area * 0.15:
+        # Improved filtering
+        if area < 50 or area > image_area * 0.20:
             continue
 
         x, y, w, h = cv2.boundingRect(contour)
@@ -130,4 +188,4 @@ def run_inspection(template_path, test_path):
             "box": [int(x), int(y), int(w), int(h)]
         })
 
-    return detections
+    return detections, test
